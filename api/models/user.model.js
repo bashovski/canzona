@@ -27,7 +27,8 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true,
         minLength: 8,
-        maxLength: 32
+        maxLength: 32,
+        select: false
     }
 }, {
     timestamps: true
