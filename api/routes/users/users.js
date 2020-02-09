@@ -1,4 +1,7 @@
-const router = require('express').Router();
+const router = require('express').Router(),
+    bcrypt = require('bcrypt');
+    BCRYPT_SALT_ROUNDS = 10;
+
 let User = require('../../models/user.model');
 
 router.route('/').get((req, res) => {
@@ -7,23 +10,29 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json(err));
 });
 
+/**
+ * Handler for registering the user by adding a new document record to the MongoDB cluster's collection.
+ */
 router.route('/post').post((req, res) => {
     const username = req.body.username,
-        email = req.body.email,
-        password = req.body.password;
+        email = req.body.email;
 
-    const user = new User({
-        username,
-        email,
-        password
-    });
+    bcrypt.hash(req.body.password, BCRYPT_SALT_ROUNDS)
+    .then(password => {
 
-    user.save()
-        .then(() => {
-            res.json('user added');
-        }).catch(err => {
+        const user = new User({
+            username,
+            email,
+            password
+        });
+
+        user.save()
+            .then(() => {
+                res.json('user added');
+            }).catch(err => {
             res.status(400).json(err);
         });
+    });
 });
 
 module.exports = router;

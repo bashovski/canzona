@@ -1,5 +1,4 @@
 let routers = [
-
         'users'
     ], methods = [
         'GET',
