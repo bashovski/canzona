@@ -1,0 +1,39 @@
+@import "../../app.scss";
+.cna-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 7.5%;
+    &-links {
+        display: flex;
+        align-items: center;
+        & > a {
+            color: $color-dark;
+            font-family: Montserrat, sans-serif;
+            text-decoration: none;
+            transition: 500ms;
+
+            &:hover {
+                color: $color-primary-light;
+                transition: 500ms;
+            }
+
+            &:not(:first-child) {
+                margin-left: 35px;
+            }
+        }
+    }
+    &-login_btn {
+        background-color: $color-primary;
+        padding: 10px 45px;
+        border-radius: 50px;
+        color: $color-background;
+        font-family: Montserrat, sans-serif;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: 500ms;
+        &:hover {
+            background-color: $color-primary-light;
+            transition: 500ms;
+        }
+    }
+}
