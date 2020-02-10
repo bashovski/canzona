@@ -1,0 +1,12 @@
+@import "../../app.scss";
+.cna-home {
+    &-main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        background-image: linear-gradient(#42447844, #595caedd), url('../../assets/home/background.jpg');
+        background-size: cover;
+    }
+}
