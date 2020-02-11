@@ -15,7 +15,7 @@ const uri = atlas.getAtlasURI();
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
 }).then(() => {
     console.log('[canzona-api]: successfully connected to the MongoDB cluster.');
 });

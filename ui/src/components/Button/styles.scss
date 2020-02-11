@@ -1,0 +1,18 @@
+@import "../../app.scss";
+
+.cna-btn {
+    background-color: $color-primary;
+    padding: 10px 45px;
+    border-radius: 50px;
+    color: $color-background;
+    font-family: Montserrat, sans-serif;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 500ms;
+    &:hover {
+        background-color: $color-secondary;
+        opacity: 0.7;
+        transition: 500ms;
+    }
+}
