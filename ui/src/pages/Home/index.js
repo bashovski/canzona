@@ -9,6 +9,7 @@ export default class Home extends React.Component {
             <div className="cna-home">
                 <div className="cna-home-main">
                     <h2>Featured on <span>Canzona</span></h2>
+                    <p>See what's trending on the platform at the moment.</p>
                     <FeaturedAlbumSlider/>
                 </div>
                 <div className="cna-home-info">
