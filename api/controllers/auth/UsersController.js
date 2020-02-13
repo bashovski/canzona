@@ -22,7 +22,7 @@ module.exports = {
 
 
     /**
-     * createUser method handles request by creating a new user with passed params.
+     * register method handles request by creating a new user with passed params.
      *
      * @param req
      * @param res
@@ -50,13 +50,28 @@ module.exports = {
                 });
             });
     },
+
+    /**
+     * login method handles request params (email, password) and returns jwt if the credentials are correct.
+     *
+     * @param req
+     * @param res
+     */
     login(req, res) {
         const email = req.body.email,
-            password = req.body.password;
+            password = req.body.password,
+            step = req.body.step;
 
         User.findOne({
             email: email
         }).select(`+password`).then(user => {
+            if(!user) return res.status(400).send({
+                error: 'Entered email doesn\'t match any account.'
+            });
+
+            // for the step IDs, refer to auth service in UI
+            if(step && step === 1) return res.send({success: true});
+
             bcrypt.compare(password, user.password, (err, result) => {
                 if(result)
                     return res.send({
@@ -68,6 +83,14 @@ module.exports = {
             res.status(500).json(err);
         });
     },
+    /**
+     *
+     * authenticate method handles passed authorization bearer.
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
     authenticate(req, res, next = () => {}) {
         isAuthenticated(req, res, () => {
             return res.send({

@@ -1,5 +1,6 @@
 import React from 'react';
 import Links from "../../services/Navigation/links";
+import Logo from "../../components/Logo/Logo";
 import './styles.scss';
 
 export default class Navigation extends React.Component {
@@ -14,6 +15,7 @@ export default class Navigation extends React.Component {
         return(
             <nav className="cna-nav">
                 <div className="cna-nav-links">
+                    <Logo width={48}/>
                     {links}
                 </div>
                 <div className="cna-nav-login_btn">

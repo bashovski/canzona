@@ -1,0 +1,78 @@
+@import "../../app.scss";
+
+.cna-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(#8388fbdd, #595caedd), url('../../assets/home/background.jpg');
+    background-size: cover;
+
+    &-form {
+
+        width: 450px;
+        background-color: $color-background;
+        border-radius: 10px;
+        padding: 50px 20px 20px 20px;
+        display: flex;
+        box-shadow: 3px 2px 20px 12px rgba(0, 0, 0, 0.25);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &-input {
+            width: 100%;
+            & > input {
+                padding: 10px;
+                border-radius: 50px;
+                border: 1px solid #69696933;
+                width: calc(100% - (10px * 2));
+                margin-top: 50px;
+                font-family: Quicksand, sans-serif;
+                font-size: 16px;
+                &:focus {
+                    outline: none;
+                }
+            }
+            & > img {
+                margin-top: -50px;
+                height: 15px;
+                margin-bottom: 30px;
+                padding-left: 92%;
+                transition: 300ms;
+                pointer-events: none;
+            }
+        }
+
+        &-error {
+            font-family: Raleway, sans-serif;
+            color: $color-light;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 0.1px;
+        }
+
+        &-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            color: $color-background;
+            font-family: Montserrat, sans-serif;
+            font-size: 18px;
+            border-radius: 10px;
+            background-color: $color-primary;
+            width: 100%;
+            padding: 20px 0;
+            cursor: pointer;
+
+            transition: 500ms;
+            &:hover {
+                transition: 500ms;
+                background-color: $color-primary-light;
+            }
+        }
+    }
+}

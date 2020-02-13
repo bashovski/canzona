@@ -1,23 +1,23 @@
 import React from 'react';
-import {
-    Route,
-    HashRouter
-} from "react-router-dom";
-import Navigation from './layouts/Navigation';
 import './App.scss';
+
 import Home from "./pages/Home";
+import Navigation from './layouts/Navigation';
+import Login from "./pages/Login";
+
+import {BrowserRouter as Router} from "react-router-dom";
+const Route = require('react-router-dom').Route;
 
 export default class App extends React.Component {
     render() {
         return (
-            <HashRouter>
+            <Router>
                 <div className="App">
                     <Navigation/>
-                    <div className="content">
-                        <Route path={`/`} component={Home} />
-                    </div>
+                    <Route path={'/'} component={Home} exact />
+                    <Route path={'/login'} component={Login} exact />
                 </div>
-            </HashRouter>
+            </Router>
         );
     }
 }

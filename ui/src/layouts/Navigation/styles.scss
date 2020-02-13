@@ -37,6 +37,8 @@
         text-transform: uppercase;
         cursor: pointer;
         transition: 500ms;
+        height: fit-content;
+        align-self: center;
         &:hover {
             background-color: $color-secondary;
             opacity: 0.7;

@@ -21,8 +21,8 @@ router.route('/login').post((req, res) => {
     controller.login(req, res);
 });
 
-router.route('/session').get((req, res) => {
+router.route('/authenticate').get((req, res) => {
     controller.authenticate(req, res);
-})
+});
 
 module.exports = router;
