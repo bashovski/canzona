@@ -15,12 +15,12 @@ export default class Navigation extends React.Component {
         return(
             <nav className="cna-nav">
                 <div className="cna-nav-links">
-                    <Logo width={48}/>
+                    <a className="cna-nav-links-logo" href="/"><Logo width={48}/></a>
                     {links}
                 </div>
-                <div className="cna-nav-login_btn">
+                <a className="cna-nav-login_btn" href="/login">
                     Login
-                </div>
+                </a>
             </nav>
         );
     };

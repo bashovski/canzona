@@ -42,10 +42,10 @@ export default class Login extends React.Component {
 
         if(statusCode === 401) {
             if(this.state.step === STEP_EMAIL)
-                return this.setError('Email you \'ve entered doesn\'t belong to any account here.');
+                return this.setError('An error has occurred while trying to log you in.');
             return this.setError(`You 've entered the wrong password, please try again.`);
         }
-        return this.setError(`An error has occurred while trying to log you in.`);
+        return this.setError(`Email you 've entered doesn't belong to any account here`);
     };
 
     setError = (err) => {
@@ -77,7 +77,10 @@ export default class Login extends React.Component {
                     email: email
                 });
             }
+
             LocalStorage.setAccessToken(resp.data.jwtKey);
+            window.location.href = '/';
+
         }).catch(err => {
             console.log(err.response);
             this.handleErrors(err.response.status, err.response.statusText);

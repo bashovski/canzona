@@ -7,5 +7,12 @@ export default {
             email: email,
             password: password
         });
+    },
+    authenticate(jwt) {
+        return axios.get(`http://localhost:8000/users/authenticate`, {
+            headers: {
+                Authorization: jwt
+            }
+        });
     }
 }

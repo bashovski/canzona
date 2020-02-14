@@ -27,6 +27,13 @@
                 margin-left: 35px;
             }
         }
+        &-logo {
+            transition: 500ms;
+            &:hover {
+                transition: 500ms;
+                opacity: 0.6;
+            }
+        }
     }
     &-login_btn {
         background-color: $color-primary;
@@ -39,8 +46,11 @@
         transition: 500ms;
         height: fit-content;
         align-self: center;
+        text-decoration: none;
+
         &:hover {
-            background-color: $color-secondary;
+            background-color: $color-primary-light;
+            color: #ffffff;
             opacity: 0.7;
             transition: 500ms;
         }
