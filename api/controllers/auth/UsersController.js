@@ -43,7 +43,7 @@ module.exports = {
                 user.save()
                 .then(() => {
                     res.json({
-                        jwtKey: jwt.getJWT()
+                        jwtKey: jwt.generateJWT(user._id, email)
                     });
                 }).catch(err => {
                     res.status(400).json(err);
@@ -75,7 +75,7 @@ module.exports = {
             bcrypt.compare(password, user.password, (err, result) => {
                 if(result)
                     return res.send({
-                        jwtKey: jwt.getJWT()
+                        jwtKey: jwt.generateJWT(user._id, email)
                     });
                 return res.status(401).json(err);
             });
@@ -96,6 +96,17 @@ module.exports = {
             return res.send({
                 success: true
             });
+        });
+    },
+
+    isValidUser(userId, email) {
+        User.findOne({
+            email: email,
+            user_id: userId
+        }).then(resp => {
+            return true;
+        }).catch(() => {
+            return false;
         });
     }
 };

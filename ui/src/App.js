@@ -1,20 +1,21 @@
 import React from 'react';
 import './App.scss';
 
-import Home from "./pages/Home";
 import Navigation from './layouts/Navigation';
-import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 
 import {BrowserRouter as Router} from "react-router-dom";
 import AuthAPI from "./api/auth";
 import LocalStorage from './services/LocalStorage/local';
+import router from "./router";
 
 const Route = require('react-router-dom').Route;
 
 export default class App extends React.Component {
 
     state = {
-        userAuthenticated: false
+        userAuthenticated: false,
+        awaitingResponse: true
     };
 
     componentDidMount() {
@@ -27,35 +28,42 @@ export default class App extends React.Component {
             });
         }).catch(err => {
             LocalStorage.setAccessToken('');
+        }).finally(() => {
+            this.setState({
+                awaitingResponse: false
+            });
         });
     }
 
-    render() {
-        // TODO: make seperate file for routes and import them in App (here).
-        const routes = [
-            {name: 'Login', component: Login, path: '/login'}
-        ];
-        let routesJSX = [];
-        for(let i = 0, length = routes.length; i < length; i++) {
-            routesJSX.push(
-                <Route path={routes[i].path} component={routes[i].component} exact />
-            )
+    initializeRoutes = () => {
+        let jsx = [];
+        const middleware = this.state.userAuthenticated ? 'auth' : 'no-auth';
+        console.log(middleware);
+        for(let i = 0, len = router.routes.length; i < len; i++) {
+            if(!router.routes[i].middleware || router.routes[i].middleware === middleware) {
+                jsx.push(
+                    <Route key={i} path={router.routes[i].path} component={router.routes[i].component} exact />
+                );
+            } else {
+                console.log('protected-route: '+ router.routes[i].path);
+                jsx.push(
+                    <Route key={i} path={router.routes[i].path} component={NotFound} exact />
+                )
+            }
         }
-        return (
+
+        console.log(jsx);
+
+        return jsx;
+    };
+
+    render() {
+        // TODO: Replace the loading container with a properly made one that would contain a loading anim.
+        return this.state.awaitingResponse ? (<div>Loading...</div>) : (
             <Router>
                 <div className="App">
                     <Navigation/>
-                    <Route path={'/'} component={Home} exact />
-
-                    {
-                        this.state.userAuthenticated ? (
-                            /* Middleware-protected routes */
-                            <Route path={'/web/player'} component={Login} exact />
-                        ) : (
-                            /* Routes that are accessible while logged-out or while being unauthenticated */
-                            routesJSX
-                        )
-                    }
+                    {this.initializeRoutes()}
                 </div>
             </Router>
         );

@@ -70,7 +70,9 @@ export default class Login extends React.Component {
         .login(this.state.step, email, password)
         .then(resp => {
             console.log(resp.data);
-            this.resetInput();
+
+            if(!resp.data.jwtKey) this.resetInput();
+
             if(this.state.step === STEP_EMAIL) {
                 return this.setState({
                     step: STEP_PASSWORD,
