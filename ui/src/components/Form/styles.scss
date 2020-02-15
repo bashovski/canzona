@@ -1,0 +1,16 @@
+@import "../../app.scss";
+
+.cna-form {
+    width: 450px;
+    border-radius: 10px;
+    padding: 50px 20px 20px 20px;
+    @include background-mask;
+    @include box-shadow;
+
+    & > * {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}

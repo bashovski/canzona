@@ -1,6 +1,8 @@
 import React from 'react';
 import './styles.scss';
+import Form from "../../components/Form";
 import Logo from "../../components/Logo/Logo";
+import ErrorNotice from "../../components/ErrorNotice";
 import AuthAPI from "../../api/auth";
 import LocalStorage from '../../services/LocalStorage/local';
 
@@ -45,14 +47,27 @@ export default class Login extends React.Component {
                 return this.setError('An error has occurred while trying to log you in.');
             return this.setError(`You 've entered the wrong password, please try again.`);
         }
-        return this.setError(`Email you 've entered doesn't belong to any account here`);
+        return this.setError(`Email you 've entered doesn't belong to any account here.`);
     };
 
     setError = (err) => {
         this.setState({
             error: err
         });
+
     };
+
+    unmountErrorNotice() {
+        this.setState({
+            error: null
+        });
+    }
+
+    displayErrorNotice() {
+        return(
+            <ErrorNotice unmount={() => {this.unmountErrorNotice()}} error={this.state.error}/>
+        );
+    }
 
     proceed = () => {
 
@@ -111,24 +126,29 @@ export default class Login extends React.Component {
     }
 
     render() {
+        const error = this.state.error ? this.displayErrorNotice() : null;
         return(
             <div className="cna-login">
-                <div className="cna-login-form">
-                    <Logo/>
-                    <div className="cna-login-form-input">
-                        <input type={this.getInputType()}
-                               placeholder={this.getInputPlaceholder()}
-                               onChange={this.handleInputUpdate}
-                               ref={this.inputFieldRef}/>
-                        <img src={require('../../assets/icons/tick.svg')} alt="" style={this.getTickStyle()}/>
+                {error}
+                <Form content={
+                    <div>
+                        <Logo/>
+                        <div className="cna-login-form-heading">
+                            Login
+                        </div>
+                        <div className="cna-login-form-input">
+                            <input type={this.getInputType()}
+                                   placeholder={this.getInputPlaceholder()}
+                                   onChange={this.handleInputUpdate}
+                                   ref={this.inputFieldRef}/>
+                            <img src={require('../../assets/icons/tick.svg')} alt="" style={this.getTickStyle()}/>
+                        </div>
+                        <div className="cna-login-form-btn" onClick={this.proceed}>
+                            Proceed
+                        </div>
+                        <a className="cna-login-form-forgot_pass" href="/forgotpassword">Forgot your <span>password?</span></a>
                     </div>
-                    <div className="cna-login-form-error">
-                        {this.state.error}
-                    </div>
-                    <div className="cna-login-form-btn" onClick={this.proceed}>
-                        Proceed
-                    </div>
-                </div>
+                }/>
             </div>
         )
     }
