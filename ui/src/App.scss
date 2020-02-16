@@ -10,6 +10,10 @@ $color-dark: #424478;
 
 body {
     background-color: $color-background;
+    position: relative;
+}
+html, body {
+    overflow-x: hidden;
 }
 
 input {

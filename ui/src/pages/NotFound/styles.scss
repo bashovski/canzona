@@ -1,0 +1,29 @@
+@import "../../app.scss";
+.cna-not_found {
+    @include background;
+    @include center-wrapper;
+
+    font-family: Montserrat, sans-serif;
+
+    &-code {
+        display: flex;
+        justify-content: center;
+        font-size: 82px;
+        & > span {
+            color: $color-primary;
+            text-shadow: 3px 2px 0 black;
+        }
+    }
+    &-text {
+        font-size: 16px;
+        color: $color-background;
+        text-align: center;
+
+        @media screen and (max-width: 992px) {
+            padding: 0 20px;
+        }
+    }
+    &-cta {
+        margin-top: 30px;
+    }
+}

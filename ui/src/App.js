@@ -4,7 +4,7 @@ import './App.scss';
 import Navigation from './layouts/Navigation';
 import NotFound from "./pages/NotFound";
 
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router, Switch} from "react-router-dom";
 import AuthAPI from "./api/auth";
 import LocalStorage from './services/LocalStorage/local';
 import router from "./router";
@@ -60,12 +60,15 @@ export default class App extends React.Component {
     render() {
         // TODO: Replace the loading container with a properly made one that would contain a loading anim.
         return this.state.awaitingResponse ? (<div>Loading...</div>) : (
-            <Router>
-                <div className="App">
+            <div className="App">
+                <Router>
                     <Navigation/>
-                    {this.initializeRoutes()}
-                </div>
-            </Router>
+                    <Switch>
+                        {this.initializeRoutes()}
+                        <Route component={NotFound} />
+                    </Switch>
+                </Router>
+            </div>
         );
     }
 }
