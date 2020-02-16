@@ -29,7 +29,9 @@ module.exports = {
      */
     register(req, res) {
         const username = req.body.username,
-            email = req.body.email;
+            email = req.body.email,
+            name = req.body.name,
+            surname = req.body.surname;
 
         bcrypt.hash(req.body.password, BCRYPT_SALT_ROUNDS)
             .then(password => {
@@ -37,13 +39,16 @@ module.exports = {
                 const user = new User({
                     username,
                     email,
-                    password
+                    password,
+                    name,
+                    surname
                 });
 
                 user.save()
                 .then(() => {
                     res.json({
-                        jwtKey: jwt.generateJWT(user._id, email)
+                        jwtKey: jwt.generateJWT(user._id, email),
+                        createdAt: new Date(user.createdAt).getTime() / 1000
                     });
                 }).catch(err => {
                     res.status(400).json(err);

@@ -4,8 +4,10 @@ import Logo from "../../components/Logo/Logo";
 import ErrorNotice from "../../components/ErrorNotice";
 import AuthAPI from "../../api/auth";
 import './styles.scss';
+import LocalStorage from "../../services/LocalStorage/local";
 
 const isValidEmail = require('../../services/Validation/isValidEmail');
+const registerErrors = require('../../services/Validation/register');
 
 export default class Register extends Component {
 
@@ -19,13 +21,13 @@ export default class Register extends Component {
         error: ''
     };
 
-    handleInputUpdate(input, event) {
+    handleInputUpdate = (input, event) => {
         this.setState({
             [input]: event.target.value
         })
-    }
+    };
 
-    getTickStyle(input) {
+    getTickStyle = (input) => {
         if(input === 'email') {
             return isValidEmail(this.state.email) ? {
                 opacity: 1
@@ -33,35 +35,74 @@ export default class Register extends Component {
                 opacity: 0
             };
         }
-    }
+    };
 
-    proceed() {
-        const errors = this.getInputValidationErrors();
-        if(!errors) return this.register();
-        this.displayValidationError(errors[0]);
-    }
+    handleResponseError = (field) => {
+        this.setError(registerErrors.errors[field]);
+    };
 
-    displayValidationError(error) {
+    proceed = () => {
+        const error = this.getInputValidationError();
+        if(!error) return this.register();
+        this.setError(error);
+    };
 
-    }
+    setError = (err) => {
+        this.setState({
+            error: err
+        });
+    };
 
-    register() {
+    unmountErrorNotice = () => {
+        this.setState({
+            error: null
+        });
+    };
+
+    handleResponseValidationErrors = (field) => {
+        this.setError(registerErrors.validationErrors[field]);
+    };
+
+    displayErrorNotice = () => {
+        return(
+            <ErrorNotice unmount={() => {this.unmountErrorNotice()}} error={this.state.error}/>
+        );
+    };
+
+    register = () => {
         AuthAPI
         .register(this.state.email, this.state.name, this.state.surname, this.state.username, this.state.password)
         .then(resp => {
-            console.log(resp.data);
+            LocalStorage.setAccessToken(resp.data.jwtKey);
+            window.location.href = `/player?first_login=${resp.data.createdAt}`;
         }).catch(err => {
-            console.log(err);
+            if(err.response.data.errors) this.handleResponseValidationErrors(Object.keys(err.response.data.errors));
+            else this.handleResponseError(Object.keys(err.response.data.keyValue)[0]);
         })
-    }
+    };
 
-    getInputValidationErrors() {
+    getInputValidationError = () => {
+        // Validate email
+        if(!isValidEmail(this.state.email)) return 'Invalid email, please insert the correct one.';
 
-    }
+        // Validate name & surname
+        const expPattern = /^[a-zA-Z]*$/;
+        if(!expPattern.test(this.state.name) || this.state.name.length === 0) return `You 've provided invalid name. Please insert the valid one.`;
+        if(!expPattern.test(this.state.surname) || this.state.surname.length === 0) return `You 've provided invalid name. Please insert the valid one.`;
 
-    render() {
+        // Validate username, further validation will be done by the back-end
+        if(this.state.username.length === 0) return 'Insert the username you\'ll be using for your account.';
+
+        // Validate if the password is inserted, further validation will be done by the back-end
+        if(this.state.password.length === 0) return 'Insert desired password, please.';
+        if(this.state.passwordConfirmation !== this.state.password) return 'Inserted passwords do not match.';
+    };
+
+    render = () => {
+        const error = this.state.error ? this.displayErrorNotice() : null;
         return(
             <div className="cna-register">
+                {error}
                 <Form content={
                     <div>
                         <Logo/>
@@ -78,11 +119,10 @@ export default class Register extends Component {
                                 <input type="text" placeholder="Surname" onChange={(event) => {this.handleInputUpdate('surname', event)} }/>
                             </div>
                             <input type="text" placeholder="Username" onChange={(event) => {this.handleInputUpdate('username', event)} }/>
-                            <input type="password" placeholder="Password" onChange={(event) => {this.handleInputUpdate('password', event)} }/>
+                            <input type="password" style={{marginTop: 30}} placeholder="Password" onChange={(event) => {this.handleInputUpdate('password', event)} }/>
                             <input type="password" placeholder="Password confirmation" onChange={(event) => {this.handleInputUpdate('passwordConfirmation', event)} }/>
                         </div>
-                        <div className="cna-register-btn" onClick={this.proceed()}>REGISTER</div>
-                        <ErrorNotice/>
+                        <div className="cna-register-btn" onClick={this.proceed}>REGISTER</div>
                     </div>
                 } />
             </div>

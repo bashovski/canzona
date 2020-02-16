@@ -101,8 +101,6 @@ export default class Login extends React.Component {
         }).catch(err => {
             console.log(err.response);
             this.handleErrors(err.response.status, err.response.statusText);
-        }).finally(() => {
-
         });
     };
 

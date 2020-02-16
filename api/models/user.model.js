@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     username: {
-       type: String,
-       required: true,
-       unique: true,
-       trim: true,
-       minLength: 4,
-       maxLength: 24
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minLength: 4,
+        maxLength: 24,
+        validate: /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
     },
     email: {
         type: String,

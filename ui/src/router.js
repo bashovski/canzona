@@ -16,7 +16,7 @@ const routes = [
     {name: 'Home', component: Home, path: '/'},
     {name: 'Login', component: Login, path: '/login', middleware: 'no-auth'},
     {name: 'Register', component: Register, path: '/register', middleware: 'no-auth'},
-    {name: 'WebPlayer', component: Player, path: '/player', middleware: 'auth'}
+    {name: 'Player', component: Player, path: '/player', middleware: 'auth'}
 ];
 
 const redirects = {
