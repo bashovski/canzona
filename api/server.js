@@ -25,6 +25,9 @@ connection.once('open', () => {
     console.log('[canzona-api]: connection to the MongoDB cluster is open.');
 });
 
+const initializeAWS = require('./aws/init');
+initializeAWS();
+
 const apiRoutes = require('./routes/api');
 
 apiRoutes.initialize(app);
