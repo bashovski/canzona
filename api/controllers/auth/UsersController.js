@@ -1,4 +1,7 @@
 const jwt = require('../../services/auth/jwt');
+const ses = require('../../aws/ses/ses');
+const welcomeTemplate = require('../../aws/ses/templates/welcome');
+
 const bcrypt = require('bcrypt'),
       BCRYPT_SALT_ROUNDS = 10;
 
@@ -44,8 +47,11 @@ module.exports = {
                     surname
                 });
 
+                const verificationURL = 'https://canzona.io/user/verify?verification_id=testverificationcode'; // using to test, later on we'll implement a validation key and more.
+
                 user.save()
                 .then(() => {
+                    ses.sendEmail(email, 'Welcome to Canzona!', welcomeTemplate(name, verificationURL));
                     res.json({
                         jwtKey: jwt.generateJWT(user._id, email),
                         createdAt: new Date(user.createdAt).getTime() / 1000
