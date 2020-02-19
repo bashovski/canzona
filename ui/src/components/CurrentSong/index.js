@@ -31,6 +31,24 @@ export default class CurrentSong extends Component {
         });
         this.audioRef.current.currentTime = value;
 
+        if(this.state.isPlaying) {
+            this.setState({
+                isPlaying: false
+            });
+            this.audioRef.current.pause();
+        }
+
+        this.setState({
+            draggingTimeout: setTimeout(() => {
+                if(!this.timeSlider.current.state.dragging) {
+                    clearTimeout(this.state.draggingTimeout);
+                    this.setState({
+                        isPlaying: true
+                    });
+                    this.audioRef.current.play();
+                }
+            }, 300)
+        });
     };
 
     mutateAudioPlaying = () => {
