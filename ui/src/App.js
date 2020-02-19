@@ -26,7 +26,7 @@ export default class App extends React.Component {
             this.setState({
                userAuthenticated: true
             });
-        }).catch(err => {
+        }).catch(() => {
             LocalStorage.setAccessToken('');
         }).finally(() => {
             this.setState({
@@ -38,7 +38,7 @@ export default class App extends React.Component {
     initializeRoutes = () => {
         let jsx = [];
         const middleware = this.state.userAuthenticated ? 'auth' : 'no-auth';
-        console.log(middleware);
+
         for(let i = 0, len = router.routes.length; i < len; i++) {
             if(!router.routes[i].middleware || router.routes[i].middleware === middleware) {
                 jsx.push(
@@ -62,7 +62,7 @@ export default class App extends React.Component {
         return this.state.awaitingResponse ? (<div>Loading...</div>) : (
             <div className="App">
                 <Router>
-                    <Navigation/>
+                    <Navigation userAuthenticated={this.state.userAuthenticated}/>
                     <Switch>
                         {this.initializeRoutes()}
                         <Route component={NotFound} />

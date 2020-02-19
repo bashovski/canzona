@@ -4,6 +4,20 @@ import Logo from "../../components/Logo/Logo";
 import './styles.scss';
 
 export default class Navigation extends React.Component {
+
+    callToAction = () => {
+
+        return !this.props.userAuthenticated ? (
+            <a className="cna-nav-login_btn" href="/login">
+                Login
+            </a>
+        ) : (
+            <a className="cna-nav-login_btn" href="/player">
+                Web Player
+            </a>
+        )
+    };
+
     render() {
         let links = [];
         for(let i = 0, length = Links.length; i < length; i++) {
@@ -18,9 +32,7 @@ export default class Navigation extends React.Component {
                     <a className="cna-nav-links-logo" href="/"><Logo width={48}/></a>
                     {links}
                 </div>
-                <a className="cna-nav-login_btn" href="/login">
-                    Login
-                </a>
+                {this.callToAction()}
             </nav>
         );
     };

@@ -1,0 +1,77 @@
+@import "../../app.scss";
+
+.cna-current_song {
+    display: flex;
+    align-items: center;
+    height: $current-song-height;
+    width: 100%;
+    background: linear-gradient($color-light, $color-dark);
+    padding: 0 20px;
+    &-album_cover {
+        width: 54px;
+        & > img {
+            width: inherit;
+            border-radius: 10px;
+        }
+    }
+    &-info {
+        display: flex;
+        flex-direction: column;
+        font-family: Montserrat, sans-serif;
+        color: $color-background;
+        margin-left: 15px;
+        &-name {
+            font-size: 16px;
+        }
+        &-artist {
+            padding-top: 5px;
+            font-size: 14px;
+        }
+    }
+    &-player {
+        width: 70%;
+        height: 100%;
+        &-controls {
+            height: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: column;
+            align-items: center;
+
+            &-top {
+                display: flex;
+                justify-content: center;
+
+                &-btn {
+                    max-width: 24px;
+                }
+                & > * {
+                    cursor: pointer;
+                    &:not(:first-child) {
+                        padding-left: 10px;
+                    }
+                    &:hover {
+                        opacity: 0.5;
+                    }
+                }
+            }
+
+            &-bottom {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &-time {
+                    font-family: Raleway, sans-serif;
+                    font-size: 14px;
+                    color: $color-background;
+                }
+            }
+        }
+    }
+}
+
+.rc-slider-handle {
+    border-color: $color-primary !important;
+    box-shadow: none !important;
+}
