@@ -7,7 +7,8 @@
     flex-direction: column;
 
     &-wrapper {
-        background-color: $color-background;
+        background: linear-gradient(#ecececee, #ecececff), url('../../assets/home/background.jpg');
+        background-size: cover;
         width: 100%;
         height: calc(100vh - #{$current-song-height});
         border-bottom-right-radius: 40px;
