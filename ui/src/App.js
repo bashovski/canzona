@@ -2,6 +2,7 @@ import React from 'react';
 import './App.scss';
 
 import Navigation from './layouts/Navigation';
+import SideNavigation from "./layouts/SideNavigation";
 import NotFound from "./pages/NotFound";
 
 import {BrowserRouter as Router, Switch} from "react-router-dom";
@@ -57,12 +58,19 @@ export default class App extends React.Component {
         return jsx;
     };
 
+    renderNavigation = () => {
+
+        return !router.isNavDisabled(window.location.pathname) ? (
+            <Navigation userAuthenticated={this.state.userAuthenticated}/>
+        ) : <SideNavigation/>;
+    };
+
     render() {
         // TODO: Replace the loading container with a properly made one that would contain a loading anim.
         return this.state.awaitingResponse ? (<div>Loading...</div>) : (
             <div className="App">
                 <Router>
-                    <Navigation userAuthenticated={this.state.userAuthenticated}/>
+                    {this.renderNavigation()}
                     <Switch>
                         {this.initializeRoutes()}
                         <Route component={NotFound} />

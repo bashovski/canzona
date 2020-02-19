@@ -16,7 +16,7 @@ const routes = [
     {name: 'Home', component: Home, path: '/'},
     {name: 'Login', component: Login, path: '/login', middleware: 'no-auth'},
     {name: 'Register', component: Register, path: '/register', middleware: 'no-auth'},
-    {name: 'Player', component: Player, path: '/player', middleware: 'auth'}
+    {name: 'Player', component: Player, path: '/player', middleware: 'auth', navDisabled: true}
 ];
 
 const redirects = {
@@ -24,7 +24,12 @@ const redirects = {
     'no-auth': '/'
 };
 
+const isNavDisabled = (path) => {
+    return routes.find((route) => route.navDisabled && route.path === path);
+};
+
 export default {
     routes,
-    redirects
+    redirects,
+    isNavDisabled
 };
