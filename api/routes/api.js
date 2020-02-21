@@ -1,10 +1,5 @@
 let routers = [
         'users'
-    ], methods = [
-        'GET',
-        'POST',
-        'PATCH',
-        'DELETE'
     ];
 
 module.exports = {
