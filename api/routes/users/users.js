@@ -1,18 +1,6 @@
-const controller = require('../../controllers/auth/UsersController');
+const controller = require('../../controllers/UsersController');
 const router = require('express').Router();
 
-let User = require('../../models/user.model');
-
-/**
- * Endpoint for index list of all registered users.
- */
-router.route('/').get((req, res) => {
-    controller.indexUsers(req, res);
-});
-
-/**
- * Endpoint for registering the user.
- */
 router.route('/register').post((req, res) => {
     controller.register(req, res);
 });

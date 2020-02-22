@@ -9,11 +9,8 @@ module.exports = (req, res, next) => {
     let token = req.headers.authorization;
     let privateKey = fs.readFileSync('./private.pem', 'utf8');
 
-    const controller = require('../../controllers/auth/UsersController.js');
     jwt.verify(token, privateKey, { algorithm: "HS256" }, (err, data) => {
-        console.log(data);
-        if(!err || (data && controller.isValidUser(data.user_id, data.email))) return next();
-
+        if(!err) return next(data.user_id);
         res.status(401).json({ error: err });
     });
 };

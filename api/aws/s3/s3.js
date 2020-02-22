@@ -2,7 +2,7 @@ const aws = require('aws-sdk');
 const fs = require('fs');
 const buckets = require('./buckets');
 const isImage = require('is-image');
-const files = require('../../services/crypt/files');
+const uniqueHash = require('../../services/crypt/unique');
 
 const s3 = new aws.S3();
 
@@ -20,7 +20,7 @@ module.exports = {
         const fileContent = fs.readFileSync(fileName);
         if(!isImage(fileName)) throw 'invalid file passed';
 
-        files.generateHash(salt, (hash) => {
+        uniqueHash.generateHash(salt, (hash) => {
             const delimited = fileName.split('.');
 
             s3.upload({

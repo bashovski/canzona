@@ -1,28 +1,17 @@
-const jwt = require('../../services/auth/jwt');
-const ses = require('../../aws/ses/ses');
-const welcomeTemplate = require('../../aws/ses/templates/welcome');
+const jwt = require('../services/auth/jwt');
+const ses = require('../aws/ses/ses');
+const welcomeTemplate = require('../aws/ses/templates/welcome');
 
 const bcrypt = require('bcrypt'),
       BCRYPT_SALT_ROUNDS = 10;
 
-const isAuthenticated = require('../../services/auth/isAuthenticated');
+const isAuthenticated = require('../services/auth/authenticate');
+const isVerified = require('../services/auth/verify');
+const verificationsController = require('../controllers/VerificationsController');
 
-let User = require('../../models/user.model');
+let User = require('../models/User');
 
 module.exports = {
-
-    /**
-     * indexUsers method returns list of all users as response from the MongoDB collection of users.
-     *
-     * @param req
-     * @param res
-     */
-    indexUsers(req, res) {
-        User.find()
-            .then(users => res.send(users))
-            .catch(err => res.status(400).json(err));
-    },
-
 
     /**
      * register method handles request by creating a new user with passed params.
@@ -47,14 +36,15 @@ module.exports = {
                     surname
                 });
 
-                const verificationURL = 'https://canzona.io/user/verify?verification_id=testverificationcode'; // using to test, later on we'll implement a validation key and more.
-
                 user.save()
                 .then(() => {
-                    ses.sendEmail(email, 'Welcome to Canzona!', welcomeTemplate(name, verificationURL));
-                    res.json({
-                        jwtKey: jwt.generateJWT(user._id, email),
-                        createdAt: new Date(user.createdAt).getTime() / 1000
+                    verificationsController.createVerification(user._id).then(verificationKey => {
+                        const verificationURL = `https://localhost:3000/verify/${verificationKey}`;
+                        ses.sendEmail(email, 'Welcome to Canzona!', welcomeTemplate(name, verificationURL));
+                        res.json({
+                            jwtKey: jwt.generateJWT(user._id, email),
+                            createdAt: new Date(user.createdAt).getTime() / 1000
+                        });
                     });
                 }).catch(err => {
                     res.status(400).json(err);
@@ -102,22 +92,14 @@ module.exports = {
      * @param res
      * @param next
      */
-    authenticate(req, res, next = () => {}) {
-        isAuthenticated(req, res, () => {
-            return res.send({
-                success: true
-            });
-        });
-    },
-
-    isValidUser(userId, email) {
-        User.findOne({
-            email: email,
-            user_id: userId
-        }).then(resp => {
-            return true;
-        }).catch(() => {
-            return false;
+    async authenticate(req, res, next = () => {}) {
+        await isAuthenticated(req, res, (userId) => {
+            isVerified(userId, (isVerified) => {
+                return res.send({
+                    success: true,
+                    isVerified: isVerified
+                });
+            })
         });
     }
 };
