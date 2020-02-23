@@ -1,0 +1,34 @@
+@import "../../app.scss";
+.cna-verification_reminder {
+    @include single-wrapper;
+    @include background;
+    z-index: 1;
+    font-family: Montserrat, sans-serif;
+    color: $color-primary;
+    text-align: center;
+    &-notice {
+        font-size: 26px;
+        font-weight: 500;
+    }
+    &-text {
+        font-family: Raleway, sans-serif;
+        margin-top: 20px;
+        font-size: 16px;
+        color: #000;
+    }
+    &-body {
+        & > button {
+            @include auth-btn;
+        }
+    }
+    &-logout {
+        color: #696969;
+        & > a {
+            color: $color-primary;
+            text-decoration: none;
+            &:hover {
+                opacity: 0.6;
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import './App.scss';
 
 import Navigation from './layouts/Navigation';
@@ -11,11 +11,13 @@ import LocalStorage from './services/LocalStorage/local';
 import router from "./router";
 
 const Route = require('react-router-dom').Route;
+const VerificationReminder = React.lazy(() => {return import('./components/VerificationReminder')});
 
 export default class App extends React.Component {
 
     state = {
         userAuthenticated: false,
+        userVerified: true,
         awaitingResponse: true
     };
 
@@ -25,7 +27,8 @@ export default class App extends React.Component {
         .then(resp => {
             console.log(resp.data);
             this.setState({
-               userAuthenticated: true
+                userAuthenticated: true,
+                userVerified: resp.data.isVerified
             });
         }).catch(() => {
             LocalStorage.setAccessToken('');
@@ -35,6 +38,10 @@ export default class App extends React.Component {
             });
         });
     }
+
+    renderVerificationReminder = () => {
+        return !this.state.userVerified ? (<VerificationReminder/>) : ('');
+    };
 
     initializeRoutes = () => {
         let jsx = [];
@@ -68,15 +75,21 @@ export default class App extends React.Component {
     render() {
         // TODO: Replace the loading container with a properly made one that would contain a loading anim.
         return this.state.awaitingResponse ? (<div>Loading...</div>) : (
-            <div className="App">
-                <Router>
-                    {this.renderNavigation()}
-                    <Switch>
-                        {this.initializeRoutes()}
-                        <Route component={NotFound} />
-                    </Switch>
-                </Router>
-            </div>
+            this.state.userVerified ? (
+                <div className="App">
+                    <Router>
+                        {this.renderNavigation()}
+                        <Switch>
+                            {this.initializeRoutes()}
+                            <Route component={NotFound} />
+                        </Switch>
+                    </Router>
+                </div>
+            ) : (
+                <Suspense fallback={<div>Loading (suspense)...</div>}>
+                    <VerificationReminder/>
+                </Suspense>
+            )
         );
     }
 }

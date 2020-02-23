@@ -35,7 +35,6 @@ module.exports = {
                     name,
                     surname
                 });
-
                 user.save()
                 .then(() => {
                     verificationsController.createVerification(user._id).then(verificationKey => {
@@ -45,9 +44,15 @@ module.exports = {
                             jwtKey: jwt.generateJWT(user._id, email),
                             createdAt: new Date(user.createdAt).getTime() / 1000
                         });
+                    }).catch(() => {
+                        res.status(429).json({
+                            error: 'Request rate limit exceeded'
+                        });
                     });
                 }).catch(err => {
-                    res.status(400).json(err);
+                    res.status(400).json({
+                        error: err
+                    });
                 });
             });
     },

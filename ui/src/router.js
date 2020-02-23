@@ -1,4 +1,4 @@
-import Home from "./pages/Home";
+import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Player from "./pages/Player";
@@ -13,7 +13,7 @@ import Player from "./pages/Player";
  * @type {*[]}
  */
 const routes = [
-    {name: 'Home', component: Home, path: '/'},
+    {name: 'Landing', component: Landing, path: '/'},
     {name: 'Login', component: Login, path: '/login', middleware: 'no-auth'},
     {name: 'Register', component: Register, path: '/register', middleware: 'no-auth'},
     {name: 'Player', component: Player, path: '/player', middleware: 'auth', navDisabled: true}

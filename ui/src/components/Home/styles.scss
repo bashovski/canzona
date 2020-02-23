@@ -1,0 +1,23 @@
+@import "../../app.scss";
+
+.cna-player-home {
+    &-for_you {
+        margin-top: 50px;
+        padding: 40px;
+        background: linear-gradient($color-light, $color-dark);
+        border-top-left-radius: 40px;
+        border-bottom-left-radius: 40px;
+
+        &-heading {
+            font-family: Montserrat, sans-serif;
+            font-size: 36px;
+            text-shadow: 1px 3px 7px rgba(0, 0, 0, 0.49);
+            font-weight: 800;
+            color: $color-background;
+            padding-bottom: 20px;
+            & > span {
+                color: $color-primary;
+            }
+        }
+    }
+}

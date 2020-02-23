@@ -3,6 +3,8 @@
     &-main {
         @include center-wrapper;
         @include background;
+        padding: 0 5%;
+        width: 90%;
         & > h2 {
             font-family: Quicksand, sans-serif;
             color: $color-background;

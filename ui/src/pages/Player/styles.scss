@@ -9,8 +9,9 @@
     &-wrapper {
         background: linear-gradient(#ecececee, #ecececff), url('../../assets/home/background.jpg');
         background-size: cover;
-        width: 100%;
+        width: calc(100% - 130px);
         height: calc(100vh - #{$current-song-height});
+        padding-left: 130px;
         border-bottom-right-radius: 40px;
         border-bottom-left-radius: 40px;
     }

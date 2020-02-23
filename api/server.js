@@ -35,3 +35,5 @@ apiRoutes.initialize(app);
 app.listen(port, () => {
     console.log(`[canzona-api]: serving the API on port of :${port}`);
 });
+
+const redis = require('./services/redis/redis');

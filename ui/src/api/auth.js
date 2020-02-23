@@ -23,5 +23,12 @@ export default {
                 Authorization: jwt
             }
         });
+    },
+    requireVerificationEmail(jwt) {
+        return axios.get(`http://localhost:8000/users/requireverification`, {
+            headers: {
+                Authorization: jwt
+            }
+        });
     }
 }

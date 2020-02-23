@@ -11,6 +11,8 @@ export default class SideNavigation extends Component {
                     <SideNavigationItem src={require('../../assets/icons/playlist.svg')} />
                     <SideNavigationItem src={require('../../assets/icons/trending.svg')} />
                     <SideNavigationItem src={require('../../assets/icons/radio.svg')} />
+                    <SideNavigationItem src={require('../../assets/icons/friends.svg')} />
+                    <SideNavigationItem src={require('../../assets/icons/search.svg')} />
                 </div>
                 <div className="cna-side_navigation-avatar">
                     <img src={require('../../assets/avatar.png')} alt=""/>

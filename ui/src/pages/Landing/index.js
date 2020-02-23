@@ -3,7 +3,7 @@ import FeaturedAlbumSlider from "../../components/FeaturedAlbumsSlider";
 import Button from "../../components/Button";
 import './styles.scss';
 
-export default class Home extends React.Component {
+export default class Landing extends React.Component {
     render() {
         return (
             <div className="cna-home">
