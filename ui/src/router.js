@@ -2,6 +2,7 @@ import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Player from "./pages/Player";
+import Verify from "./pages/Verify";
 
 /**
  *
@@ -16,13 +17,9 @@ const routes = [
     {name: 'Landing', component: Landing, path: '/'},
     {name: 'Login', component: Login, path: '/login', middleware: 'no-auth'},
     {name: 'Register', component: Register, path: '/register', middleware: 'no-auth'},
-    {name: 'Player', component: Player, path: '/player', middleware: 'auth', navDisabled: true}
+    {name: 'Player', component: Player, path: '/player', middleware: 'auth', navDisabled: true},
+    {name: 'Verify', component: Verify, path: '/verify/:key', middleware: 'auth', navDisabled: true}
 ];
-
-const redirects = {
-    'auth': '/login',
-    'no-auth': '/'
-};
 
 const isNavDisabled = (path) => {
     return routes.find((route) => route.navDisabled && route.path === path);
@@ -30,6 +27,5 @@ const isNavDisabled = (path) => {
 
 export default {
     routes,
-    redirects,
     isNavDisabled
 };

@@ -1,5 +1,6 @@
-const uniqueHash = require('../services/crypt/unique');
+const crypto = require("crypto");
 const Verification = require('../models/Verification');
+const User = require('../models/User');
 const retrieveHolder = require('../services/auth/retrieveHolder');
 const ses = require('../aws/ses/ses');
 const redis = require('../services/redis/redis');
@@ -12,17 +13,17 @@ module.exports = {
             redis.get(this.verificationRequestRedisKey(userId), (err, lastTimestamp) => {
                 if(!lastTimestamp || (Math.floor(new Date / 1000) - parseInt(lastTimestamp)) >= REQUEST_LIMIT_RATE) {
                     this.updateValidationCache(userId);
-                    uniqueHash.generateHash(userId, (hash) => {
-                        const verification = new Verification({
-                            key: hash,
-                            user_id: userId
-                        });
 
-                        verification.save().then((resp) => {
-                            resolve(resp.key);
-                        }).catch(err => {
-                            reject(err);
-                        });
+                    const key = crypto.randomBytes(64).toString('hex');
+                    const verification = new Verification({
+                        key: key,
+                        user_id: userId
+                    });
+
+                    verification.save().then((resp) => {
+                        resolve(resp.key);
+                    }).catch(err => {
+                        reject(err);
                     });
                 }
                 else reject(new Error('429 - exceeded the rate limit'));
@@ -31,9 +32,15 @@ module.exports = {
 
     },
     deleteUserVerifications(userId) {
-
+        Verification.deleteMany({
+            user_id: userId
+        }).then(resp => {
+            return true;
+        }).catch(err => {
+            return false;
+        });
     },
-    updateValidationCache(userId) {
+     updateValidationCache(userId) {
         return redis.set(this.verificationRequestRedisKey(userId), Math.floor(new Date / 1000));
     },
     verificationRequestRedisKey(userId) {
@@ -45,7 +52,7 @@ module.exports = {
             console.log('retrieve then', data);
             this.createVerification(data._id)
             .then(key => {
-                ses.sendVerificationEmail(data.email, data.name, key);
+                //ses.sendVerificationEmail(data.email, data.name, key);
                 res.status(200).json({
                     success: true
                 });
@@ -58,6 +65,39 @@ module.exports = {
             res.status(400).json({
                  error: 'invalid JWT key provided',
             });
+        });
+    },
+    verifyUser(req, res) {
+        const verificationKey = req.body.key;
+
+        Verification.findOne({
+            key: verificationKey
+        }).select()
+        .then(verification => {
+
+            this.deleteUserVerifications(verification.user_id);
+
+            // update args
+            const query = {
+                _id: verification.user_id
+            };
+
+            const update = {
+                verified: true
+            };
+
+            const options = {
+                useFindAndModify: false
+            };
+
+            User.findOneAndUpdate(query, update, options)
+            .then(() => {
+                res.json({
+                    success: true
+                });
+            });
+        }).catch(err => {
+            res.status(400).json(err);
         });
     }
 };

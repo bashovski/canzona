@@ -1,4 +1,4 @@
-import React, {Suspense} from 'react';
+import React, {Component, Suspense} from 'react';
 import './App.scss';
 
 import Navigation from './layouts/Navigation';
@@ -13,7 +13,7 @@ import router from "./router";
 const Route = require('react-router-dom').Route;
 const VerificationReminder = React.lazy(() => {return import('./components/VerificationReminder')});
 
-export default class App extends React.Component {
+export default class App extends Component {
 
     state = {
         userAuthenticated: false,

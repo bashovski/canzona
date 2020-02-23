@@ -5,4 +5,8 @@ router.route('/resend').post((req, res) => {
     controller.resendVerification(req, res);
 });
 
+router.route('/verify').put((req, res) => {
+    controller.verifyUser(req, res);
+});
+
 module.exports = router;

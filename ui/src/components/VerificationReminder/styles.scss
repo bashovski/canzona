@@ -20,6 +20,10 @@
         & > button {
             @include auth-btn;
         }
+        & > img {
+            width: 75px;
+            margin-bottom: 20px;
+        }
     }
     &-logout {
         color: #696969;
