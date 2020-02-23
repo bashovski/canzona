@@ -1,6 +1,5 @@
 const jwt = require('../services/auth/jwt');
 const ses = require('../aws/ses/ses');
-const welcomeTemplate = require('../aws/ses/templates/welcome');
 
 const bcrypt = require('bcrypt'),
       BCRYPT_SALT_ROUNDS = 10;
@@ -38,8 +37,7 @@ module.exports = {
                 user.save()
                 .then(() => {
                     verificationsController.createVerification(user._id).then(verificationKey => {
-                        const verificationURL = `https://localhost:3000/verify/${verificationKey}`;
-                        ses.sendEmail(email, 'Welcome to Canzona!', welcomeTemplate(name, verificationURL));
+                        ses.sendVerificationEmail(email, name, verificationKey);
                         res.json({
                             jwtKey: jwt.generateJWT(user._id, email),
                             createdAt: new Date(user.createdAt).getTime() / 1000

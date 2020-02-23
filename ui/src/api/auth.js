@@ -25,7 +25,7 @@ export default {
         });
     },
     requireVerificationEmail(jwt) {
-        return axios.get(`http://localhost:8000/users/requireverification`, {
+        return axios.get(`http://localhost:8000/verifications/resend`, {
             headers: {
                 Authorization: jwt
             }

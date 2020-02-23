@@ -6,8 +6,8 @@ module.exports = (req, res, next) => {
         res.status(401).json({ error: "Unauthorized" });
     }
 
-    let token = req.headers.authorization;
-    let privateKey = fs.readFileSync('./private.pem', 'utf8');
+    const token = req.headers.authorization;
+    const privateKey = fs.readFileSync('./private.pem', 'utf8');
 
     jwt.verify(token, privateKey, { algorithm: "HS256" }, (err, data) => {
         if(!err) return next(data.user_id);

@@ -1,6 +1,8 @@
 const aws = require('aws-sdk');
 const ses = new aws.SES();
 
+const welcomeTemplate = require('./templates/welcome');
+
 module.exports = {
     sendEmail(to, subject, message, from = process.env.AWS_SES_EMAIL) {
         const params = {
@@ -26,5 +28,8 @@ module.exports = {
             console.log('errors', err);
             console.log('data', data);
         })
+    },
+    sendVerificationEmail(to, name, verificationKey) {
+        return this.sendEmail(to, 'Welcome to Canzona!', welcomeTemplate(name, `http://localhost:3000/verify/${verificationKey}`));
     }
 };

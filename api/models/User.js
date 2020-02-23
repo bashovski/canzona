@@ -30,6 +30,22 @@ const userSchema = new mongoose.Schema({
         minLength: 8,
         maxLength: 32,
         select: false
+    },
+    name: {
+        type: String,
+        required: true,
+        minLength: 1,
+        maxLength: 64,
+        trim: true,
+        validate: /^([^0-9]*)$/
+    },
+    surname: {
+        type: String,
+        required: true,
+        minLength: 1,
+        maxLength: 64,
+        trim: true,
+        validate: /^([^0-9]*)$/
     }
 }, {
     timestamps: true
