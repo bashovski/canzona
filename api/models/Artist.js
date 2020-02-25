@@ -36,7 +36,8 @@ const artistSchema = new mongoose.Schema({
         default: 0
     },
     about: {
-        type: String
+        type: String,
+        default: 'No info added.'
     },
     gallery: {
         type: Array,
