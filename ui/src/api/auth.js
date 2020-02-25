@@ -30,5 +30,10 @@ export default {
                 Authorization: jwt
             }
         });
+    },
+    verifyUser(key) {
+        return axios.post(`http://localhost:8000/verifications/verify`, {
+            key: key
+        });
     }
 }

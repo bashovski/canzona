@@ -5,7 +5,7 @@ router.route('/resend').post((req, res) => {
     controller.resendVerification(req, res);
 });
 
-router.route('/verify').put((req, res) => {
+router.route('/verify').post((req, res) => {
     controller.verifyUser(req, res);
 });
 
