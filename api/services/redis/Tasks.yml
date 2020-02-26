@@ -1,0 +1,9 @@
+version: '2'
+
+output: prefixed
+
+tasks:
+  run:
+    desc: Run and serve the Redis server
+    cmds:
+      - cd api/services/redis && redis-server

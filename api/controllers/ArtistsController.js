@@ -14,7 +14,7 @@ module.exports = {
             formed: req.body.formed,
             avatar: req.body.avatar,
             background: req.body.background,
-            about: !req.body.about.toString().length ? req.body.about : 'No info added.',
+            about: req.body.about.toString().length ? req.body.about : 'No info added.',
             gallery: req.body.gallery
         });
 

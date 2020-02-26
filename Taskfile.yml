@@ -1,0 +1,16 @@
+version: '2'
+
+output: prefixed
+
+includes:
+  api:            ./api/Tasks.yml
+  ui:             ./ui/Tasks.yml
+  redis:          ./api/services/redis/Tasks.yml
+
+tasks:
+  run:
+    desc: "Serve all mandatory instances"
+    deps:
+     - "api:run"
+     - "ui:run"
+     - "redis:run"

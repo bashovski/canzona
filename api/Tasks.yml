@@ -1,0 +1,8 @@
+version: '2'
+output: prefixed
+
+tasks:
+  run:
+    desc: Run and serve the api
+    cmds:
+      - cd api && nodemon server.js
