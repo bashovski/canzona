@@ -4,7 +4,7 @@
   "description": "Play, browse and enjoy World's music in one place.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "Anur Basic",
@@ -20,5 +20,9 @@
     "mongoose": "^5.8.11",
     "redis": "^3.0.2",
     "redis-clustr": "^1.7.0"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "supertest": "^4.0.2"
   }
 }

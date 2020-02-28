@@ -1,6 +1,7 @@
 let routers = [
         'users',
-        'verifications'
+        'verifications',
+        'artists'
     ];
 
 module.exports = {
