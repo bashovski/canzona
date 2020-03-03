@@ -5,6 +5,7 @@ import Logo from "../../components/Logo/Logo";
 import ErrorNotice from "../../components/ErrorNotice";
 import AuthAPI from "../../api/auth";
 import LocalStorage from '../../services/LocalStorage/local';
+import Router from '../../router';
 
 const isValidEmail = require('../../services/Validation/isValidEmail');
 
@@ -96,7 +97,9 @@ export default class Login extends React.Component {
             }
 
             LocalStorage.setAccessToken(resp.data.jwtKey);
-            window.location.href = '/';
+            Router.redirectTo({
+                name: 'Landing'
+            });
 
         }).catch(err => {
             console.log(err.response);

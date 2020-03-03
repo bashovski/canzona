@@ -35,5 +35,10 @@ export default {
         return axios.post(`http://localhost:8000/verifications/verify`, {
             key: key
         });
+    },
+    requireAccountRecovery(email) {
+        return axios.post(`http://localhost:8000/users/recover`, {
+            email: email
+        });
     }
 }

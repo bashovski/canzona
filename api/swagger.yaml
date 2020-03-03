@@ -92,7 +92,7 @@ paths:
         500:
           description: "Internal server error"
   /users/recover:
-    put:
+    post:
       tags:
       - "User"
       summary: "Recover the user account"
@@ -109,6 +109,41 @@ paths:
           schema:
             properties:
               email:
+                type: "string"
+      responses:
+        200:
+          description: "Success"
+        400:
+          description: "Bad request"
+        404:
+          description: "Account doesn't exist"
+        429:
+          description: "Request rate limit exceeded"
+        500:
+          description: "Internal server error"
+  /users/recover/conclude:
+    put:
+      tags:
+      - "User"
+      summary: "Update the password of the account and regain the access of it"
+      operationId: "concludeAccountRecovery"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "header"
+          name: "Authorization"
+          description: "Unique JSONWebToken for authentication of the user"
+          type: "string"
+          required: true
+        - in: "body"
+          name: "body"
+          description: "Body of the request"
+          required: true
+          schema:
+            properties:
+              password:
                 type: "string"
       responses:
         200:

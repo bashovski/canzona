@@ -31,5 +31,8 @@ module.exports = {
     },
     sendVerificationEmail(to, name, verificationKey) {
         return this.sendEmail(to, 'Welcome to Canzona!', welcomeTemplate(name, `http://localhost:3000/verify/${verificationKey}`));
+    },
+    sendRecoveryEmail(to, name, recoveryKey) {
+        return this.sendEmail(to, 'Account Recovery', welcomeTemplate('asd', 'asd'));
     }
 };

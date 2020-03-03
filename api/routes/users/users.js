@@ -13,4 +13,12 @@ router.route('/authenticate').get((req, res) => {
     controller.authenticate(req, res);
 });
 
+router.route('/recover').post((req, res) => {
+    controller.recover(req, res);
+});
+
+router.route('/recover/conclude').put((req, res) => {
+    controller.concludeAccountRecovery(req, res);
+});
+
 module.exports = router;

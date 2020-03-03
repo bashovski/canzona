@@ -20,7 +20,8 @@ module.exports = {
                         user_id: userId
                     });
 
-                    verification.save().then((resp) => {
+                    verification.save()
+                    .then((resp) => {
                         resolve(resp.key);
                     }).catch(err => {
                         reject(err);
@@ -40,7 +41,7 @@ module.exports = {
             return false;
         });
     },
-     updateValidationCache(userId) {
+    updateValidationCache(userId) {
         return redis.set(this.verificationRequestRedisKey(userId), Math.floor(new Date / 1000));
     },
     verificationRequestRedisKey(userId) {
