@@ -3,6 +3,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Player from "./pages/Player";
 import Verify from "./pages/Verify";
+import ForgotPassword from "./pages/ForgotPassword";
 
 /**
  *
@@ -18,14 +19,28 @@ const routes = [
     {name: 'Login', component: Login, path: '/login', middleware: 'no-auth'},
     {name: 'Register', component: Register, path: '/register', middleware: 'no-auth'},
     {name: 'Player', component: Player, path: '/player', middleware: 'auth', navDisabled: true},
-    {name: 'Verify', component: Verify, path: '/verify/:key', middleware: 'auth', navDisabled: true}
+    {name: 'Verify', component: Verify, path: '/verify/:key', middleware: 'auth', navDisabled: true},
+    {name: 'ForgotPassword', component: ForgotPassword, path: '/forgotpassword', middleware: 'no-auth'}
 ];
 
 const isNavDisabled = (path) => {
     return routes.find((route) => route.navDisabled && route.path === path);
 };
 
+const redirectTo = (routeObj) => {
+    const accessor = Object.keys(routeObj)[0];
+    if(!accessor) throw `invalid object passed, refer to docs`;
+    const val = routeObj[accessor];
+
+    for(let i = 0; i < routes.length; i++) {
+        if(routes[i][accessor] === val)
+            return window.location = routes[i].path;
+    }
+    throw 'invalid accessor value';
+};
+
 export default {
     routes,
-    isNavDisabled
+    isNavDisabled,
+    redirectTo
 };
