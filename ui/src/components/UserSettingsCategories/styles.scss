@@ -1,0 +1,27 @@
+@import "../../app.scss";
+
+.cna-user_settings-categories {
+    margin-top: 20px;
+}
+
+.cna-user_settings-category {
+
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #b3b3b344;
+    transition: 500ms;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.7;
+        transition: 500ms;
+    }
+
+    & > img {
+        max-width: 24px;
+    }
+    & > span {
+        padding-left: 10px;
+    }
+}

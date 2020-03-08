@@ -5,6 +5,7 @@ import Player from "./pages/Player";
 import Verify from "./pages/Verify";
 import ForgotPassword from "./pages/ForgotPassword";
 import MailSent from "./pages/MailSent";
+import UserSettings from "./pages/UserSettings";
 
 /**
  *
@@ -25,7 +26,8 @@ const routes = [
     {name: 'Player', component: Player, path: '/player', middleware: 'auth', navDisabled: true},
     {name: 'Verify', component: Verify, path: '/verify/:key', middleware: 'auth', navDisabled: true},
     {name: 'ForgotPassword', component: ForgotPassword, path: '/forgotpassword', middleware: 'no-auth'},
-    {name: 'MailSent', component: MailSent, path: '/mailsent'}
+    {name: 'MailSent', component: MailSent, path: '/mailsent'},
+    {name: 'UserSettings', component: UserSettings, path: '/settings', middleware: 'auth'}
 ];
 
 const isNavDisabled = (path) => {

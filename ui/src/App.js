@@ -48,20 +48,14 @@ export default class App extends Component {
         const middleware = this.state.userAuthenticated ? 'auth' : 'no-auth';
 
         for(let i = 0, len = router.routes.length; i < len; i++) {
-            if(!router.routes[i].middleware || router.routes[i].middleware === middleware) {
+            if(!router.routes[i].middleware || router.routes[i].middleware === middleware)
                 jsx.push(
                     <Route key={i} path={router.routes[i].path} component={router.routes[i].component} exact />
                 );
-            } else {
-                console.log('protected-route: '+ router.routes[i].path);
-                jsx.push(
+            else jsx.push(
                     <Route key={i} path={router.routes[i].path} component={NotFound} exact />
-                )
-            }
+                );
         }
-
-        console.log(jsx);
-
         return jsx;
     };
 
